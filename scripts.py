@@ -6,13 +6,18 @@ from datacenter.models import Schoolkid, Mark, Chastisement, Lesson, Commendatio
 
 
 def get_kid_by_name(kid_name: str) -> Schoolkid:
+    if not kid_name:
+        print('Вы забыли ввести имя ученика.')
+        exit(1)
     try:
         kid = Schoolkid.objects.get(full_name__contains=kid_name)
     except MultipleObjectsReturned:
         print('Существует несколько учеников с таким именем.')
         print('Пожалуйста, введите более точное имя.')
+        exit(1)
     except ObjectDoesNotExist:
         print('Ученика с таким именем не существует.')
+        exit(1)
     else:
         print(f'Ученик по имени "{kid.full_name}" найден.')
         return kid
@@ -36,6 +41,9 @@ def remove_chastisements(kid_name: str):
 
 
 def create_commendation(kid_name: str, subject_name: str):
+    if not subject_name:
+        print('Вы забыли ввести название предмета.')
+        exit(1)
     schoolkid = get_kid_by_name(kid_name)
     target_class_subj_lesson = Lesson.objects \
         .filter(year_of_study=6,
@@ -78,6 +86,7 @@ def create_commendation(kid_name: str, subject_name: str):
         date = target_class_subj_lesson.date
     except AttributeError:
         print('Вы ошиблись в названии предмета.')
+        exit(1)
     else:
         subject = target_class_subj_lesson.subject
         teacher = target_class_subj_lesson.teacher
