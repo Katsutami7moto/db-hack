@@ -7,13 +7,12 @@ def get_kid_by_name(kid_name: str) -> Schoolkid:
     try:
         kid = Schoolkid.objects.get(full_name__contains=kid_name)
     except MultipleObjectsReturned:
-        print('There is several students with this name.')
-        print('Please, specify the name.')
-        exit(1)
+        print('Существует несколько учеников с таким именем.')
+        print('Пожалуйста, введите более точное имя.')
     except ObjectDoesNotExist:
-        print('There is no student with such name.')
-        exit(1)
+        print('Ученика с таким именем не существует.')
     else:
+        print(f'Ученик по имени {kid.full_name} найден.')
         return kid
 
 
@@ -25,6 +24,7 @@ def fix_marks(kid_name: str):
     for bad_mark in target_kid_bad_marks:
         bad_mark.points = 5
         bad_mark.save()
+    print('Оценки исправлены.')
 
 
 def remove_chastisements(kid_name: str):
@@ -32,6 +32,7 @@ def remove_chastisements(kid_name: str):
     schoolkid = get_kid_by_name(kid_name)
     target_kid_chastisements = Chastisement.objects.filter(schoolkid=schoolkid)
     target_kid_chastisements.delete()
+    print('Замечания удалены.')
 
 
 def create_commendation(kid_name: str, subject_name: str):
@@ -75,10 +76,15 @@ def create_commendation(kid_name: str, subject_name: str):
         'Ты многое сделал, я это вижу!',
         'Теперь у тебя точно все получится!',
     ]
-    date = target_class_subj_lesson.date
-    subject = target_class_subj_lesson.subject
-    teacher = target_class_subj_lesson.teacher
-    Commendation.objects.create(text=random.choice(praise_lines),
-                                created=date, schoolkid=schoolkid,
-                                subject=subject,
-                                teacher=teacher)
+    try:
+        date = target_class_subj_lesson.date
+    except AttributeError:
+        print('Вы ошиблись в названии предмета.')
+    else:
+        subject = target_class_subj_lesson.subject
+        teacher = target_class_subj_lesson.teacher
+        Commendation.objects.create(text=random.choice(praise_lines),
+                                    created=date, schoolkid=schoolkid,
+                                    subject=subject,
+                                    teacher=teacher)
+        print(f'Похвала к последнему уроку по предмету "{subject_name}" создана.')
