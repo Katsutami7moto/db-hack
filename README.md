@@ -1,60 +1,62 @@
 # db-hack
 
-## How to install
+## Установка
 
-Download `scripts.py` file and place it near `manage.py` file in the site's directory.
+Скачайте файл `scripts.py` и положите его рядом с файлом `manage.py` в папке сайта.
 
-## How to use
+## Использование
 
-Execute this command in terminal to run Django Shell:
+Выполните эту команду в консоли, чтобы запустить Django Shell:
 ```
 python3 manage.py shell
 ```
 
-You should see this:
+Вы должны увидеть это:
 ```
 (InteractiveConsole)
 >>> 
 ```
 
-Type this command to import all scripts and press `Enter`:
+Введите данную команду и нажмите `Enter`, чтобы импортировать все функции:
 ```
 from scripts import *
 ```
 
-Now you can use any of the three scripts.
+Теперь вы можете просто обращаться к любой из функций.
 
-### Fix marks
+### Исправление оценок
 
-To fix marks of a student named `Фамилия Имя`, type this and press `Enter`:
+Чтобы исправить оценки ученика, которого зовут `Фамилия Имя`, введите эту команду и нажмите `Enter`:
 
 ```
 fix_marks('Фамилия Имя')
 ```
 
-### Remove Chastisements
+### Удаление замечаний
 
-To remove chastisements of a student named `Фамилия Имя`, type this and press `Enter`:
+Чтобы удалить замечания, сделанные ученику, которого зовут `Фамилия Имя`, введите эту команду и нажмите `Enter`:
 
 ```
 remove_chastisements('Фамилия Имя')
 ```
 
 
-### Create Commendation
+### Создание похвалы
 
-To create a commendation for a student named `Фамилия Имя` and for the subject named `Предмет`, type this and press `Enter`:
+Чтобы создать похвалу к последнему уроку по предмету, который называется `Предмет`, для ученика, которого зовут `Фамилия Имя`, введите эту команду и нажмите `Enter`:
 
 ```
 create_commendation('Фамилия Имя', 'Предмет')
 ```
 
-## Afterword
+## Прочее
 
-If you had used wrong name, script will inform you. Retry the command with right name: the existing one or the more specified one.
+Программа сообщит, если вы ввели несуществующее имя, либо если есть несколько учеников с тем именем, которое вы ввели. В таком случае повторите вызов функции, написав верное или уточнённое имя. То же самое с названием предмета.
 
-To exit Django shell press Ctrl+D.
+Чтобы переключаться между ранее введёнными командами, используйте стрелки вверх и вниз.
 
-#TODO: translate to Russian
-#TODO: add tutorial links
-#TODO: add subject name error handling
+Чтобы выйти из Django Shell, нажмите сочетание клавиш Ctrl+D.
+
+## Цели проекта
+
+Код написан в учебных целях — это урок в курсе по Python и веб-разработке на сайте [Devman](https://dvmn.org).
