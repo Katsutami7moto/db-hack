@@ -1,6 +1,8 @@
+import random
+
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
-from datacenter.models import Schoolkid
+from datacenter.models import Schoolkid, Mark, Chastisement, Lesson, Commendation
 
 
 def get_kid_by_name(kid_name: str) -> Schoolkid:
@@ -12,12 +14,11 @@ def get_kid_by_name(kid_name: str) -> Schoolkid:
     except ObjectDoesNotExist:
         print('Ученика с таким именем не существует.')
     else:
-        print(f'Ученик по имени {kid.full_name} найден.')
+        print(f'Ученик по имени "{kid.full_name}" найден.')
         return kid
 
 
 def fix_marks(kid_name: str):
-    from datacenter.models import Mark
     schoolkid = get_kid_by_name(kid_name)
     target_kid_bad_marks = Mark.objects.filter(schoolkid=schoolkid,
                                                points__in=[2, 3])
@@ -28,7 +29,6 @@ def fix_marks(kid_name: str):
 
 
 def remove_chastisements(kid_name: str):
-    from datacenter.models import Chastisement
     schoolkid = get_kid_by_name(kid_name)
     target_kid_chastisements = Chastisement.objects.filter(schoolkid=schoolkid)
     target_kid_chastisements.delete()
@@ -36,8 +36,6 @@ def remove_chastisements(kid_name: str):
 
 
 def create_commendation(kid_name: str, subject_name: str):
-    import random
-    from datacenter.models import Lesson, Commendation
     schoolkid = get_kid_by_name(kid_name)
     target_class_subj_lesson = Lesson.objects \
         .filter(year_of_study=6,
